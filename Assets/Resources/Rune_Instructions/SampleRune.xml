@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Rune name="sampleRune">
+    <Layer radius="0.3">
+        <Polygon sides="30" line-width="0.03" color="#FFFFFF" />
+    </Layer>
+    <Layer radius="0.5">
+        <Corners sides="6">
+            <Layer radius="0.1">
+                <Glyph lines="1" color="#000000" size="0.2" />
+                <Polygon sides="30" line-width="0.03" color="#FFFFFF" />
+            </Layer>
+        </Corners>
+        <Polygon sides="30" line-width="0.03" color="#FFFFFF" />
+        <Polygon sides="6" line-width="0.03" color="#FFFFFF" />
+    </Layer>
+    <Layer radius="0.6">
+        <Glyph lines="1" color="#000000" size="0.6"/>
+        <Polygon sides="30" line-width="0.075" color="#FFFFFF" />
+    </Layer>
+    <Layer radius="0.7">
+        <Glyph lines="1" color="#FFFFFF" size="0.5" />
+    </Layer>
+    <Layer radius="0.8">
+        <Polygon sides="30" line-width="0.03" color="#FFFFFF" />
+    </Layer>
+    <Layer radius="0.9">
+        <Glyph lines="1" color="#FFFFFF" size="0.5" />
+    </Layer>
+    <Layer radius="1">
+        <Polygon sides="26" line-width="0.03" color="#FFFFFF" />
+    </Layer>
+</Rune>

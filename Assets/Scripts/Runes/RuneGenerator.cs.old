@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Positions;
+
+public class RuneGenerator : MonoBehaviour
+{
+    static GameObject rune = Resources.Load("Prefabs/Rune") as GameObject;
+
+    public static void CreateSphere(Transform parent, string[] text, int quantity, float radius, float verticalAngle, float ang_offset = 0)
+    {
+        float ang = ang_offset;
+        for (int i = 0; i < quantity; i++)
+        {
+            Vector3 _pos = PositionsGenerator.SphereLocation(parent.position, radius, ang, verticalAngle);
+            CreatePoint(parent, text, 360, _pos);
+            ang += 360 / quantity;
+        }
+    }
+
+    public static void CreateStack(Transform parent, string[] _text, int height, int layers)
+    {
+        Vector3 _pos = new Vector3(parent.position.x, 0, parent.position.z);
+        for (int i = 0; i < layers; i++)
+        {
+            var _rune = Instantiate(rune, _pos, Quaternion.identity, parent) as GameObject;
+            MagicCircleGenerator.createGlyphs(parent, _text);
+            _pos.y += height / layers;
+        }
+    }
+
+    public static void CreateTriangle(Transform parent, string[] _text, int layers, bool inverse = false)
+    {
+        Vector3 center = parent.position;
+        for (int lay = 0; lay <= layers; lay++)
+        {
+            int bot = layers - lay;
+            CreateLine(parent, _text, bot, lay);
+        }
+    }
+
+    public static void CreateLine(Transform parent, string[] _text, int width, float height)
+    {
+        Vector3 center = parent.position;
+        for (int i = 1; i <= width; i++)
+        {
+            var meth = (width + 1) / 2f;
+            Vector3 _pos = new Vector3(center.x + i - meth, center.y + height, center.z + 1);
+            var _rune = Instantiate(rune, _pos, Quaternion.identity, parent) as GameObject;
+            MagicCircleGenerator.createGlyphs(_rune.transform, _text);
+        }
+    }
+
+    public static void CreatePoint(Transform parent, string[] _text, int sides, Vector3 position)
+    {
+        var _rune = Instantiate(rune, position, Quaternion.identity, parent) as GameObject;
+        MagicCircleGenerator.createPolygon(_rune.transform, 460, Color.white, 0.3f);
+        MagicCircleGenerator.createPolygon(_rune.transform, sides, Color.white, 0.5f, 0.03f);
+        MagicCircleGenerator.createPolygon(_rune.transform, 6, Color.white, 0.5f);
+        MagicCircleGenerator.createPolygonCorners(_rune.transform, 6, Color.white, 0.5f);
+        MagicCircleGenerator.createPolygon(_rune.transform, sides, Color.white, 0.8f);
+        MagicCircleGenerator.createPolygon(_rune.transform, sides, Color.white, 1f);
+        MagicCircleGenerator.createPolygon(_rune.transform, 8, Color.white, 1.4f);
+        MagicCircleGenerator.createPolygonCorners(_rune.transform, 8, Color.white, 1.4f, 0.05f);
+        MagicCircleGenerator.createGlyphs(_rune.transform, _text, 0.6f);
+        MagicCircleGenerator.adjustGlyph(_rune, "sphere");
+    }
+}

@@ -30,7 +30,7 @@
         <Polygon sides="6" line-width="0.03" color="#FFFFFF"/>
     </Layer>
     <Layer radius="0.7">
-        <Polygon sides="30" line-width="0.05" color="#000000"/>
+        <Polygon sides="40" line-width="0.05" color="#000000"/>
         <Glyph lines="1" color="#FFFFFF" size="0.4"/>
     </Layer>
 </Rune>

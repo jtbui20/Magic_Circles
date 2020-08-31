@@ -9,46 +9,31 @@ namespace Positions
         /// </summary>
         /// <param name="center">The center location of the circle</param>
         /// <param name="radius">The radius of the circle</param>
-        /// <param name="ang">The angle produced from the center to the point from the positive x axis</param>
-        public static Vector3 CircleLocation(Vector3 center, float radius, float ang)
+        /// <param name="rotation">The angle produced from the center to the point from the positive x axis</param>
+        public static Vector3 CircleLocation(Vector3 center, float radius, float rotation, string facing = "z")
         {
-            Vector3 pos;
-            pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
-            pos.y = center.y + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
-            pos.z = center.z;
-            return pos;
+            float ang = rotation * Mathf.Deg2Rad;
+            float a = Mathf.Cos(ang) * radius;
+            float b = Mathf.Sin(ang) * radius;
+            switch (facing)
+            {
+                case "x": return center + new Vector3(0, b, a);
+                case "y": return center + new Vector3(b, 0, a);
+                case "z": return center + new Vector3(b, a, 0);
+                default: return center + new Vector3(0, 0, 0);
+            }
         }
 
         public static Vector3 SphereLocation(Vector3 center, float radius, float rotation, float elevation = 0)
         {
+            float rot = rotation * Mathf.Deg2Rad;
+            float ele = elevation * Mathf.Deg2Rad;
             Vector3 pos = new Vector3();
-            pos.y = center.y + (radius * Mathf.Sin(elevation * Mathf.Deg2Rad));
-            float _xz = radius * Mathf.Cos(elevation * Mathf.Deg2Rad);
-            pos.x = center.x + (_xz * Mathf.Cos(rotation * Mathf.Deg2Rad));
-            pos.z = center.z + (_xz * Mathf.Sin(rotation * Mathf.Deg2Rad));
-            return pos;
-        }
 
-        public static Vector3 CircleLocation(float radius, float ang, string facing = "x")
-        {
-            switch (facing)
-            {
-                case "x":
-                    return new Vector3(0, Mathf.Sin(ang) * radius, Mathf.Cos(ang) * radius);
-                case "y":
-                    return new Vector3(Mathf.Sin(ang) * radius, 0, Mathf.Cos(ang) * radius);
-                case "z":
-                    return new Vector3(Mathf.Sin(ang) * radius, Mathf.Cos(ang) * radius, 0);
-                default:
-                    return new Vector3(0, 0, 0);
-            }
-        }
-
-        public static Vector3 TriangleLocation(float ang_A, float ang_B, float side_C)
-        {
-            float ang_C = 180 - (ang_A + ang_B);
-            float side_B = (side_C * Mathf.Sin(Mathf.Deg2Rad * ang_C)) / Mathf.Sin(Mathf.Deg2Rad * ang_B);
-            Vector3 pos = CircleLocation(side_B, 90 - ang_A);
+            pos.y = center.y + (radius * Mathf.Sin(ele));
+            float _xz = radius * Mathf.Cos(ele);
+            pos.x = center.x + (_xz * Mathf.Cos(rot));
+            pos.z = center.z + (_xz * Mathf.Sin(rot));
             return pos;
         }
 

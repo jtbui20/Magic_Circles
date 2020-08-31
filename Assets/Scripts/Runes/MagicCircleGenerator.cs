@@ -19,8 +19,7 @@ public class MagicCircleGenerator : MonoBehaviour
             for (int i = 0; i < phrase.Length; i++)
             {
                 Vector3 _pos = PositionsGenerator.CircleLocation(parent.position, _radius, angle);
-                Quaternion _rot = Quaternion.FromToRotation(Vector3.right, parent.position - _pos);
-                GameObject _glyph = Instantiate(glyph, _pos, _rot, parent);
+                GameObject _glyph = Instantiate(glyph, _pos, Quaternion.identity, parent);
                 TextMeshPro _tmp = _glyph.GetComponent<TextMeshPro>();
                 _tmp.text = phrase[i].ToString();
                 _tmp.fontSize = 0.5f;
@@ -32,7 +31,6 @@ public class MagicCircleGenerator : MonoBehaviour
         }
         return glyphs;
     }
-
     public static List<GameObject> createGlyphs(Transform parent, string text, Color color, float radius, float fontSize = 0.5f)
     {
         var glyph = Resources.Load("Prefabs/Glyph") as GameObject;
@@ -42,7 +40,7 @@ public class MagicCircleGenerator : MonoBehaviour
         for (int i = 0; i < length; i++)
         {
             Vector3 _pos = PositionsGenerator.CircleLocation(parent.position , radius, angle);
-            Quaternion _rot = Quaternion.FromToRotation(Vector3.right, parent.position - _pos);
+            Quaternion _rot = Quaternion.identity;
             GameObject _glyph = Instantiate(glyph, _pos, _rot, parent);
             TextMeshPro _tmp = _glyph.GetComponent<TextMeshPro>();
             _tmp.text = text[i].ToString();
@@ -116,8 +114,8 @@ public class MagicCircleGenerator : MonoBehaviour
         var _points = new Vector3[_line.positionCount];
         for (int i = 0; i < _line.positionCount; i++)
         {
-            var ang = Mathf.Deg2Rad * (i * 360 / sides);
-            _points[i] = PositionsGenerator.CircleLocation(radius, ang, "z");
+            var ang = i * 360 / sides;
+            _points[i] = PositionsGenerator.CircleLocation(Vector3.zero, radius, ang);
         }
         _circle.transform.position = parent.position;
         _line.SetPositions(_points);
@@ -133,8 +131,8 @@ public class MagicCircleGenerator : MonoBehaviour
         Vector3[] CircleLocation = new Vector3[sides + 1];
         for (int i = 0; i < sides + 1; i++)
         {
-            var ang = Mathf.Deg2Rad * (i * 360f / (sides));
-            Vector3 _C = parent.position + PositionsGenerator.CircleLocation(radius, ang, "z");
+            var ang = (i * 360f / (sides));
+            Vector3 _C = parent.position + PositionsGenerator.CircleLocation(Vector3.zero, radius, ang);
             GameObject _d = Instantiate(rune, _C, Quaternion.identity, parent);
             createPolygon(_d.transform, 360, color, 0.07f, linewidth);
             CircleLocation[i] = _C - parent.position;

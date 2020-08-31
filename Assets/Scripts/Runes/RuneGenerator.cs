@@ -9,19 +9,18 @@ public class RuneGenerator : MonoBehaviour
 {
     static GameObject rune = Resources.Load("Prefabs/Rune") as GameObject;
 
-    public static void CreateRuneXML(XmlNode XMLRune, Transform parent, string[] text, Vector3 position)
+    public static void CreateRuneXML(XmlNode XMLRune, Transform parent, Vector3 position)
     {
         // Instantiates new object
-        var _rune = Instantiate(rune, Vector3.zero, Quaternion.identity, parent) as GameObject;
+        GameObject _rune = Instantiate(rune, position, Quaternion.identity, parent);
         _rune.name = "Rune";
 
         // Counters for text
-        int text_Counter = 0;
-
         foreach (XmlNode layer in XMLRune)
         {
             GameObject _layer = new GameObject("Layer");
             _layer.transform.parent = _rune.transform;
+            _layer.transform.position = _rune.transform.position;
             float radius = Convert.ToSingle(layer.Attributes["radius"].Value);
             foreach (XmlNode element in layer)
             {
@@ -41,9 +40,7 @@ public class RuneGenerator : MonoBehaviour
                             float fntSize = Convert.ToSingle(element.Attributes["size"].Value);
                             Color color = Color.white;
                             ColorUtility.TryParseHtmlString(element.Attributes["color"].Value, out color);
-
-                            MagicCircleGenerator.createGlyphs(_layer.transform, text[text_Counter], color, radius, fntSize);
-                            text_Counter += 1;
+                            MagicCircleGenerator.createGlyphs(_layer.transform, element.InnerText, color, radius, fntSize);
                             break;
                         }
                     case "Corners":
@@ -63,6 +60,5 @@ public class RuneGenerator : MonoBehaviour
                 }
             }
         }
-        _rune.transform.position = position;
     }
 }

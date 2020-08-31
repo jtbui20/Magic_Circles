@@ -1,26 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using RandomLetterGenerator;
 using System.Xml;
 
 public class RuneController : MonoBehaviour
 {
-    RLgenerator rlg;
     void Start()
     {
-        // Init the RLG
-        rlg = new RLgenerator(Random.state.GetHashCode());
-        rlg.setString_Set("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
     }
 
     void Update()
     {
-        string[] text = rlg.GenText(10, 5, 7);
         if (Input.GetKeyDown("f")) {
-            RuneGenerator.CreateRuneXML(PathToXML("Rune_Instructions/SampleRune"), gameObject.transform, text, transform.position);
+            RuneGenerator.CreateRuneXML(PathToXML("Rune_Instructions/SampleRune"), gameObject.transform, transform.position);
         } else if (Input.GetKeyDown("g")) {
-            RuneGenerator.CreateRuneXML(PathToXML("Rune_Instructions/SampleRune2"), gameObject.transform, text, transform.position);
+            RuneGenerator.CreateRuneXML(PathToXML("Rune_Instructions/SampleRune2"), gameObject.transform, transform.position);
         }
     }
 
